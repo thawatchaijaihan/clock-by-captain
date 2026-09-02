@@ -1,0 +1,7 @@
+{
+  "name": "นาฬิกาและวันที่เต็มจอ (Real-time Clock)",
+  "description": "เว็บแอปพลิเคชันแสดงเวลาและวันที่ปัจจุบันแบบเรียลไทม์เต็มจอ รองรับภาษาไทยและสากล ปรับแต่งธีมได้",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
