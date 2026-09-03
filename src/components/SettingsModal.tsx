@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   X,
   Palette,
@@ -9,6 +9,9 @@ import {
   SunMedium,
   Sparkles,
   RotateCcw,
+  Check,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { ClockSettings, ThemePreset, CalendarSystem } from '../types';
 import { THEMES, ThemeDefinition } from '../utils/themeConfig';
@@ -30,10 +33,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   resetSettings,
   currentTheme,
 }) => {
+  const [themeFilter, setThemeFilter] = useState<'all' | 'pastel-canvas' | 'pastel-light' | 'pastel-dark' | 'classic'>('all');
+
   if (!isOpen) return null;
 
   const isTh = settings.language === 'th';
   const themeEntries = Object.entries(THEMES) as [ThemePreset, ThemeDefinition][];
+
+  const filteredThemes = themeEntries.filter(([_, t]) => {
+    if (themeFilter === 'all') return true;
+    return t.category === themeFilter;
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fade-in">
@@ -75,34 +85,173 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
         {/* Section 1: Themes */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 text-sm font-semibold mb-3 text-zinc-300">
-            <Palette className="w-4 h-4 text-cyan-400" />
-            <span>{isTh ? 'เลือกธีมสีและแสง' : 'Color & Light Theme'}</span>
-          </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {themeEntries.map(([key, themeObj]) => {
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+            <label className="flex items-center gap-2 text-sm font-semibold text-zinc-200">
+              <Palette className="w-4 h-4 text-cyan-400" />
+              <span>{isTh ? 'เลือกธีมสีพาสเทลถนอมสายตา' : 'Color & Pastel Themes'}</span>
+            </label>
+            <span className="text-[11px] text-zinc-400">
+              {isTh ? 'โทนนุ่มนวล สบายตา สีตัดกันลงตัว' : 'Soft, non-glaring & balanced contrast'}
+            </span>
+          </div>
+
+          {/* Theme Category Filters */}
+          <div className="flex flex-wrap items-center gap-1.5 mb-3 p-1 rounded-xl bg-zinc-800/60 border border-zinc-700/60 text-xs">
+            <button
+              id="filter-theme-all"
+              type="button"
+              onClick={() => setThemeFilter('all')}
+              className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+                themeFilter === 'all'
+                  ? 'bg-zinc-700 text-white font-semibold shadow-xs'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              {isTh ? 'ทั้งหมด' : 'All'} ({themeEntries.length})
+            </button>
+            <button
+              id="filter-theme-pastel-canvas"
+              type="button"
+              onClick={() => setThemeFilter('pastel-canvas')}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all ${
+                themeFilter === 'pastel-canvas'
+                  ? 'bg-purple-900/60 text-purple-200 font-semibold border border-purple-500/50 shadow-xs'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <Palette className="w-3 h-3 text-purple-300" />
+              <span>{isTh ? 'พื้นหลังพาสเทลหลากสี' : 'Pastel Canvas'}</span>
+            </button>
+            <button
+              id="filter-theme-pastel-light"
+              type="button"
+              onClick={() => setThemeFilter('pastel-light')}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all ${
+                themeFilter === 'pastel-light'
+                  ? 'bg-amber-950/70 text-amber-300 font-semibold border border-amber-700/40 shadow-xs'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <Sun className="w-3 h-3" />
+              <span>{isTh ? 'พาสเทลสว่างนุ่ม' : 'Pastel Daylight'}</span>
+            </button>
+            <button
+              id="filter-theme-pastel-dark"
+              type="button"
+              onClick={() => setThemeFilter('pastel-dark')}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all ${
+                themeFilter === 'pastel-dark'
+                  ? 'bg-emerald-950/70 text-emerald-300 font-semibold border border-emerald-700/40 shadow-xs'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <Moon className="w-3 h-3" />
+              <span>{isTh ? 'พาสเทลถนอมสายตา (มืด)' : 'Pastel Night'}</span>
+            </button>
+            <button
+              id="filter-theme-classic"
+              type="button"
+              onClick={() => setThemeFilter('classic')}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all ${
+                themeFilter === 'classic'
+                  ? 'bg-indigo-950/70 text-indigo-300 font-semibold border border-indigo-700/40 shadow-xs'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <Sparkles className="w-3 h-3" />
+              <span>{isTh ? 'คลาสสิก' : 'Classic'}</span>
+            </button>
+          </div>
+
+          {/* Theme Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {filteredThemes.map(([key, themeObj]) => {
               const isSelected = settings.theme === key;
               return (
                 <button
                   key={key}
                   id={`theme-select-${key}`}
                   onClick={() => updateSettings({ theme: key })}
-                  className={`flex items-center gap-2.5 p-2.5 rounded-xl border text-left text-xs transition-all ${
+                  className={`flex items-center justify-between p-2.5 rounded-xl border text-left text-xs transition-all ${
                     isSelected
-                      ? 'border-cyan-500 ring-2 ring-cyan-500/30 font-bold bg-cyan-950/20'
-                      : 'border-zinc-700/60 hover:border-zinc-500 bg-zinc-800/40 text-zinc-300'
+                      ? 'border-cyan-400 ring-2 ring-cyan-400/30 font-bold bg-cyan-950/30 text-white'
+                      : 'border-zinc-700/60 hover:border-zinc-500 bg-zinc-800/40 text-zinc-300 hover:bg-zinc-800/80'
                   }`}
                 >
-                  <span
-                    className="w-4 h-4 rounded-full border border-white/20 shadow-sm shrink-0"
-                    style={{ backgroundColor: themeObj.progressColor }}
-                  />
-                  <span className="truncate">
-                    {isTh ? themeObj.nameTh : themeObj.nameEn}
-                  </span>
+                  <div className="flex items-center gap-2.5 min-w-0 pr-1">
+                    {/* Live Miniature Clock Preview Swatch */}
+                    <div
+                      className="w-11 h-7 rounded-md flex items-center justify-center font-mono font-bold text-[10px] tracking-tight shrink-0 shadow-inner border"
+                      style={{
+                        backgroundColor: themeObj.previewColors.bg,
+                        borderColor: themeObj.isLight ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.14)',
+                      }}
+                    >
+                      <span style={{ color: themeObj.previewColors.text }}>12</span>
+                      <span style={{ color: themeObj.previewColors.colon }} className="mx-px">:</span>
+                      <span style={{ color: themeObj.previewColors.text }}>00</span>
+                    </div>
+
+                    <div className="flex flex-col min-w-0">
+                      <span className="truncate text-xs font-semibold leading-tight">
+                        {isTh ? themeObj.nameTh : themeObj.nameEn}
+                      </span>
+                      <span className="text-[10px] text-zinc-400 truncate mt-0.5">
+                        {themeObj.category === 'pastel-canvas'
+                          ? (isTh ? 'พื้นหลังสีพาสเทล' : 'Pastel Canvas')
+                          : themeObj.isLight 
+                            ? (isTh ? 'สว่างสบายตา' : 'Soft Light') 
+                            : (isTh ? 'มืดถนอมตา' : 'Soft Dark')}
+                      </span>
+                    </div>
+                  </div>
+
+                  {isSelected && (
+                    <div className="w-5 h-5 rounded-full bg-cyan-500 text-zinc-950 flex items-center justify-center shrink-0">
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                  )}
                 </button>
               );
             })}
+          </div>
+
+          {/* Background Pattern Selector */}
+          <div className="mt-4 p-3 rounded-2xl bg-zinc-800/40 border border-zinc-700/60">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                {isTh ? 'ลวดลายบนพื้นหลัง (Background Pattern)' : 'Background Pattern'}
+              </span>
+              <span className="text-[10px] text-zinc-400">
+                {isTh ? 'เพิ่มลายมินิมอลเบาๆ นวลตา' : 'Minimal subtle texture'}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
+              {[
+                { id: 'dots', nameTh: 'ลายจุดมินิมอล', nameEn: 'Dot Grid' },
+                { id: 'grid', nameTh: 'ลายตารางโปร่ง', nameEn: 'Subtle Grid' },
+                { id: 'waves', nameTh: 'คลื่นแสงละมุน', nameEn: 'Soft Waves' },
+                { id: 'none', nameTh: 'เรียบสนิท (ไม่มีลาย)', nameEn: 'Solid / None' },
+              ].map((pattern) => {
+                const isSelected = (settings.backgroundPattern || 'dots') === pattern.id;
+                return (
+                  <button
+                    key={pattern.id}
+                    id={`pattern-select-${pattern.id}`}
+                    type="button"
+                    onClick={() => updateSettings({ backgroundPattern: pattern.id as any })}
+                    className={`p-2 rounded-xl border text-center font-medium transition-all ${
+                      isSelected
+                        ? 'border-purple-400 bg-purple-950/40 text-purple-200 font-semibold ring-1 ring-purple-400/40'
+                        : 'border-zinc-700/60 hover:border-zinc-500 bg-zinc-800/30 text-zinc-300 hover:bg-zinc-800/70'
+                    }`}
+                  >
+                    {isTh ? pattern.nameTh : pattern.nameEn}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -205,21 +354,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               />
             </label>
 
-            {/* 7. System Status (Top Left) */}
-            <label className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-800/40 border border-zinc-700/60 cursor-pointer hover:bg-zinc-800/70 transition-colors">
-              <span className="font-medium">
-                {isTh ? 'สถานะระบบด้านบน (System Status)' : 'Top System Status'}
-              </span>
-              <input
-                type="checkbox"
-                id="toggle-show-sys-status"
-                checked={settings.showSystemStatus}
-                onChange={(e) => updateSettings({ showSystemStatus: e.target.checked })}
-                className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
-              />
-            </label>
-
-            {/* 8. Reference & Timezone (Top Right) */}
+            {/* 7. Reference & Timezone (Top Right) */}
             <label className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-800/40 border border-zinc-700/60 cursor-pointer hover:bg-zinc-800/70 transition-colors">
               <span className="font-medium">
                 {isTh ? 'เขตเวลาด้านบน (Timezone / GMT)' : 'Top Timezone Info'}

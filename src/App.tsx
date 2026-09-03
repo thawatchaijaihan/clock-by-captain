@@ -17,7 +17,7 @@ import { Globe2, Sparkles } from 'lucide-react';
 
 const DEFAULT_SETTINGS: ClockSettings = {
   clockStyle: 'digital-modern',
-  theme: 'bold-typography',
+  theme: 'pastel-canvas-lavender',
   language: 'th',
   is24Hour: true,
   showSeconds: true,
@@ -32,13 +32,13 @@ const DEFAULT_SETTINGS: ClockSettings = {
   showFullDateText: true,
   showDayOfYearBadge: true,
   showDaysRemainingBadge: true,
-  showSystemStatus: true,
   showTimezone: true,
   showFooterBadge: true,
   dimmerBrightness: 100,
   fontSizeScale: 1.0,
   dateFontSizeScale: 1.0,
   autoHideControls: true,
+  backgroundPattern: 'dots',
 };
 
 export default function App() {
@@ -47,7 +47,11 @@ export default function App() {
     try {
       const saved = localStorage.getItem('realtime_clock_settings');
       if (saved) {
-        return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        if (parsed.theme === 'bold-typography') {
+          parsed.theme = 'pastel-canvas-lavender';
+        }
+        return { ...DEFAULT_SETTINGS, ...parsed };
       }
     } catch {
       // Fallback
@@ -231,70 +235,48 @@ export default function App() {
         filter: `brightness(${settings.dimmerBrightness}%)`,
       }}
     >
-      {/* Background Dot Grid Pattern matching Bold Typography theme */}
-      <div 
-        className="absolute inset-0 opacity-10 bg-dot-grid pointer-events-none z-0" 
-      />
-
-      {/* Atmospheric Ambient Glow Accents */}
-      <div 
-        className="pointer-events-none absolute -top-[20%] -left-[10%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-25 transition-all duration-700 bg-blue-600/20"
-      />
-      <div 
-        className="pointer-events-none absolute -bottom-[20%] -right-[10%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-25 transition-all duration-700 bg-indigo-600/20"
-      />
+      {/* Background Pastel / Minimalist Pattern Overlay */}
+      {settings.backgroundPattern && settings.backgroundPattern !== 'none' && (
+        <div
+          className={`absolute inset-0 pointer-events-none z-0 transition-opacity duration-700 ${
+            settings.backgroundPattern === 'dots'
+              ? currentTheme.isLight
+                ? 'bg-dot-grid-pastel opacity-70'
+                : 'bg-dot-grid opacity-15'
+              : settings.backgroundPattern === 'grid'
+              ? currentTheme.isLight
+                ? 'bg-grid-pastel opacity-80'
+                : 'bg-grid-dark opacity-20'
+              : settings.backgroundPattern === 'waves'
+              ? 'bg-waves-pastel opacity-80'
+              : ''
+          }`}
+        />
+      )}
 
       {/* Top Header Bar */}
-      {(settings.showSystemStatus || settings.showTimezone) && (
+      {settings.showTimezone && (
         <header
-          className={`w-full flex items-start justify-between px-6 sm:px-12 pt-6 sm:pt-8 z-30 transition-all duration-500 ${
+          className={`w-full flex items-start justify-end px-6 sm:px-12 pt-6 sm:pt-8 z-30 transition-all duration-500 ${
             controlsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
           }`}
         >
-          {/* Left: System Status & Live Indicator */}
-          {settings.showSystemStatus ? (
-            <div className="flex flex-col text-left">
-              <span className={`text-[10px] font-bold tracking-[0.4em] uppercase mb-1.5 ${
-                currentTheme.isLight ? 'text-indigo-600' : 'text-indigo-400'
-              }`}>
-                {settings.language === 'th' ? 'สถานะระบบ' : 'System Status'}
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className={`text-xs font-medium tracking-widest uppercase opacity-90 ${
-                  currentTheme.isLight ? 'text-zinc-700 font-semibold' : 'text-zinc-300'
-                }`}>
-                  {settings.language === 'th' ? 'ทำงานแบบเรียลไทม์' : 'Live Synchronized'}
-                </span>
-              </div>
+          {/* Reference & Timezone */}
+          <div className="flex flex-col text-right">
+            <span className={`text-[10px] font-bold tracking-[0.4em] uppercase mb-1.5 ${
+              currentTheme.isLight ? 'text-indigo-600' : 'text-indigo-400'
+            }`}>
+              {settings.language === 'th' ? 'ข้อมูลอ้างอิง' : 'Reference'}
+            </span>
+            <div className={`flex items-center justify-end gap-1.5 text-xs font-medium tracking-widest uppercase opacity-90 font-mono ${
+              currentTheme.isLight ? 'text-zinc-700 font-semibold' : 'text-zinc-300'
+            }`}>
+              <Globe2 className={`w-3.5 h-3.5 ${currentTheme.isLight ? 'text-indigo-600' : 'text-indigo-400'}`} />
+              <span>{tzInfo.gmtString}</span>
+              <span className="opacity-50">/</span>
+              <span>{tzInfo.timeZone}</span>
             </div>
-          ) : (
-            <div />
-          )}
-
-          {/* Right: Reference & Timezone */}
-          {settings.showTimezone ? (
-            <div className="flex flex-col text-right">
-              <span className={`text-[10px] font-bold tracking-[0.4em] uppercase mb-1.5 ${
-                currentTheme.isLight ? 'text-indigo-600' : 'text-indigo-400'
-              }`}>
-                {settings.language === 'th' ? 'ข้อมูลอ้างอิง' : 'Reference'}
-              </span>
-              <div className={`flex items-center justify-end gap-1.5 text-xs font-medium tracking-widest uppercase opacity-90 font-mono ${
-                currentTheme.isLight ? 'text-zinc-700 font-semibold' : 'text-zinc-300'
-              }`}>
-                <Globe2 className={`w-3.5 h-3.5 ${currentTheme.isLight ? 'text-indigo-600' : 'text-indigo-400'}`} />
-                <span>{tzInfo.gmtString}</span>
-                <span className="opacity-50">/</span>
-                <span>{tzInfo.timeZone}</span>
-              </div>
-            </div>
-          ) : (
-            <div />
-          )}
+          </div>
         </header>
       )}
 

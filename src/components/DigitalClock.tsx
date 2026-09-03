@@ -31,7 +31,7 @@ export const DigitalClock: React.FC<DigitalClockProps> = ({
     <div id="digital-clock-display" className="flex flex-col items-center justify-center select-none w-full my-1 sm:my-3">
       {/* Main Clock Numerals Group */}
       <div 
-        className="flex items-baseline justify-center font-bold-display font-black leading-none tracking-[-0.05em] tabular-nums drop-shadow-2xl transition-all duration-300"
+        className="flex items-baseline justify-center font-bold-display font-black leading-none tracking-[-0.05em] tabular-nums transition-all duration-300"
         style={{
           fontSize: `calc(${fontSizeScale} * clamp(4.5rem, ${showSeconds ? 'min(21.5vw, 42vh)' : 'min(29vw, 48vh)'}, 25rem))`,
           lineHeight: 0.92,
@@ -43,7 +43,7 @@ export const DigitalClock: React.FC<DigitalClockProps> = ({
         </span>
 
         {/* Solid Colon Separator */}
-        <span className={`inline-block px-1 sm:px-2 md:px-3 ${theme.colonClass} opacity-80 select-none`}>
+        <span className={`inline-block px-1 sm:px-2 md:px-3 ${theme.colonClass} opacity-60 select-none`}>
           :
         </span>
 
@@ -55,7 +55,7 @@ export const DigitalClock: React.FC<DigitalClockProps> = ({
         {/* Seconds (if enabled) */}
         {showSeconds && (
           <>
-            <span className={`inline-block px-1 sm:px-2 md:px-3 ${theme.colonClass} opacity-80 select-none`}>
+            <span className={`inline-block px-1 sm:px-2 md:px-3 ${theme.colonClass} opacity-60 select-none`}>
               :
             </span>
             <span className={`inline-block ${theme.textPrimaryClass} ${theme.glowClass}`}>

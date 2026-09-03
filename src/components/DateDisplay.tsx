@@ -89,15 +89,10 @@ export const DateDisplay: React.FC<DateDisplayProps> = ({
             <div className="w-full flex items-center justify-center text-center overflow-visible">
               <h2 
                 id="main-date-heading"
-                className={`text-center whitespace-nowrap inline-block ${
-                  theme.isLight 
-                    ? 'text-zinc-950 font-normal drop-shadow-none' 
-                    : 'text-gray-200 font-light drop-shadow-sm'
-                } tracking-normal uppercase font-thai transition-all duration-150 select-none`}
+                className={`text-center whitespace-nowrap inline-block ${theme.textPrimaryClass} font-normal tracking-normal uppercase font-thai transition-all duration-150 select-none`}
                 style={{
                   fontSize: `calc(${dateFontSizeScale} * clamp(1.05rem, 3.1vw, 4.5rem))`,
                   lineHeight: 1.25,
-                  color: theme.isLight ? '#09090b' : undefined,
                 }}
               >
                 {fullDateText}

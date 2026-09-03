@@ -28,9 +28,9 @@ export const AnalogClock: React.FC<AnalogClockProps> = ({
       <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[26rem] lg:h-[26rem] rounded-full p-2 flex items-center justify-center shadow-2xl transition-all duration-300"
         style={{
           background: theme.isLight
-            ? 'radial-gradient(circle, #ffffff 60%, #f4f4f5 100%)'
-            : 'radial-gradient(circle, rgba(24,24,27,0.8) 0%, rgba(9,9,11,0.95) 100%)',
-          border: `3px solid ${theme.isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.12)'}`,
+            ? 'radial-gradient(circle, #fbf9f4 55%, #ece7dc 100%)'
+            : 'radial-gradient(circle, rgba(28,29,36,0.75) 0%, rgba(13,14,17,0.95) 100%)',
+          border: `2px solid ${theme.isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)'}`,
         }}
       >
         {/* Minute/Hour tick marks */}

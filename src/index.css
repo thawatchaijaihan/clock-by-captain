@@ -28,6 +28,28 @@
   background-size: 40px 40px;
 }
 
+.bg-dot-grid-pastel {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+}
+
+.bg-grid-pastel {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+.bg-grid-dark {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+.bg-waves-pastel {
+  background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.35) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.35) 0%, transparent 40%);
+}
+
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.3; transform: scale(0.96); }
@@ -37,28 +59,60 @@
   animation: pulse-soft 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Glass & Glow effects */
+/* Eye-friendly minimal typography - zero glare, pure clarity */
 .text-glow-white {
-  text-shadow: 0 0 35px rgba(255, 255, 255, 0.35), 0 0 80px rgba(255, 255, 255, 0.12);
+  text-shadow: none;
+}
+
+.text-glow-soft {
+  text-shadow: none;
+}
+
+.text-glow-pastel-green {
+  text-shadow: none;
+}
+
+.text-glow-pastel-purple {
+  text-shadow: none;
+}
+
+.text-glow-pastel-blue {
+  text-shadow: none;
+}
+
+.text-glow-pastel-peach {
+  text-shadow: none;
+}
+
+.text-glow-pastel-pink {
+  text-shadow: none;
+}
+
+.text-glow-pastel-teal {
+  text-shadow: none;
+}
+
+.text-glow-pastel-amber {
+  text-shadow: none;
 }
 
 .text-glow-indigo {
-  text-shadow: 0 0 35px rgba(99, 102, 241, 0.5), 0 0 70px rgba(99, 102, 241, 0.25);
+  text-shadow: none;
 }
 
 .text-glow-cyan {
-  text-shadow: 0 0 30px rgba(6, 182, 212, 0.5), 0 0 60px rgba(6, 182, 212, 0.25);
+  text-shadow: none;
 }
 
 .text-glow-amber {
-  text-shadow: 0 0 30px rgba(245, 158, 11, 0.5), 0 0 60px rgba(245, 158, 11, 0.25);
+  text-shadow: none;
 }
 
 .text-glow-emerald {
-  text-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(16, 185, 129, 0.25);
+  text-shadow: none;
 }
 
 .text-glow-rose {
-  text-shadow: 0 0 30px rgba(244, 63, 94, 0.5), 0 0 60px rgba(244, 63, 94, 0.25);
+  text-shadow: none;
 }
 
