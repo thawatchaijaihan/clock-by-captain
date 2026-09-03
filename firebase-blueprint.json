@@ -1,0 +1,118 @@
+{
+  "entities": {
+    "UserClockSettings": {
+      "title": "UserClockSettings",
+      "description": "User custom clock settings and preferences saved in the cloud",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth User ID"
+        },
+        "clockStyle": {
+          "type": "string",
+          "description": "Display style of the clock"
+        },
+        "theme": {
+          "type": "string",
+          "description": "Active theme preset"
+        },
+        "language": {
+          "type": "string",
+          "description": "Selected display language"
+        },
+        "is24Hour": {
+          "type": "boolean",
+          "description": "Whether 24-hour mode is enabled"
+        },
+        "showSeconds": {
+          "type": "boolean",
+          "description": "Whether seconds are displayed"
+        },
+        "showMilliseconds": {
+          "type": "boolean",
+          "description": "Whether milliseconds are displayed"
+        },
+        "calendarSystem": {
+          "type": "string",
+          "description": "Calendar system"
+        },
+        "useThaiNumerals": {
+          "type": "boolean",
+          "description": "Whether Thai numerals are used"
+        },
+        "enableTickSound": {
+          "type": "boolean",
+          "description": "Whether tick sound is enabled"
+        },
+        "enableHourlyChime": {
+          "type": "boolean",
+          "description": "Whether hourly chime is enabled"
+        },
+        "showDayProgress": {
+          "type": "boolean",
+          "description": "Whether day progress bar is shown"
+        },
+        "showYearProgress": {
+          "type": "boolean",
+          "description": "Whether year progress bar is shown"
+        },
+        "showDayPill": {
+          "type": "boolean",
+          "description": "Whether day badge pill is shown"
+        },
+        "showFullDateText": {
+          "type": "boolean",
+          "description": "Whether full date text is shown"
+        },
+        "showDayOfYearBadge": {
+          "type": "boolean",
+          "description": "Whether day of year badge is shown"
+        },
+        "showDaysRemainingBadge": {
+          "type": "boolean",
+          "description": "Whether days remaining badge is shown"
+        },
+        "showTimezone": {
+          "type": "boolean",
+          "description": "Whether timezone bar is shown"
+        },
+        "showFooterBadge": {
+          "type": "boolean",
+          "description": "Whether footer badge is shown"
+        },
+        "dimmerBrightness": {
+          "type": "number",
+          "description": "Screen dimmer percentage"
+        },
+        "fontSizeScale": {
+          "type": "number",
+          "description": "Scale of clock digits"
+        },
+        "dateFontSizeScale": {
+          "type": "number",
+          "description": "Scale of date typography"
+        },
+        "autoHideControls": {
+          "type": "boolean",
+          "description": "Auto-hide control bar on idle"
+        },
+        "backgroundPattern": {
+          "type": "string",
+          "description": "Background texture type"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last updated ISO timestamp"
+        }
+      },
+      "required": ["userId", "theme", "clockStyle"]
+    }
+  },
+  "firestore": {
+    "/userClockSettings/{userId}": {
+      "schema": "UserClockSettings",
+      "description": "Stores user personalized clock preferences across devices"
+    }
+  }
+}

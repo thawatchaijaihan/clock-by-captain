@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default Deny All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidClockSettings(data) {
+      return data.userId is string &&
+             data.userId == request.auth.uid &&
+             data.theme is string && data.theme.size() <= 64 &&
+             data.clockStyle is string && data.clockStyle.size() <= 64 &&
+             (!('language' in data) || (data.language is string && data.language.size() <= 8)) &&
+             (!('is24Hour' in data) || data.is24Hour is bool) &&
+             (!('showSeconds' in data) || data.showSeconds is bool) &&
+             (!('showMilliseconds' in data) || data.showMilliseconds is bool) &&
+             (!('calendarSystem' in data) || (data.calendarSystem is string && data.calendarSystem.size() <= 16)) &&
+             (!('useThaiNumerals' in data) || data.useThaiNumerals is bool) &&
+             (!('enableTickSound' in data) || data.enableTickSound is bool) &&
+             (!('enableHourlyChime' in data) || data.enableHourlyChime is bool) &&
+             (!('showDayProgress' in data) || data.showDayProgress is bool) &&
+             (!('showYearProgress' in data) || data.showYearProgress is bool) &&
+             (!('showDayPill' in data) || data.showDayPill is bool) &&
+             (!('showFullDateText' in data) || data.showFullDateText is bool) &&
+             (!('showDayOfYearBadge' in data) || data.showDayOfYearBadge is bool) &&
+             (!('showDaysRemainingBadge' in data) || data.showDaysRemainingBadge is bool) &&
+             (!('showTimezone' in data) || data.showTimezone is bool) &&
+             (!('showFooterBadge' in data) || data.showFooterBadge is bool) &&
+             (!('dimmerBrightness' in data) || (data.dimmerBrightness is number && data.dimmerBrightness >= 10 && data.dimmerBrightness <= 100)) &&
+             (!('fontSizeScale' in data) || (data.fontSizeScale is number && data.fontSizeScale >= 0.5 && data.fontSizeScale <= 2.0)) &&
+             (!('dateFontSizeScale' in data) || (data.dateFontSizeScale is number && data.dateFontSizeScale >= 0.5 && data.dateFontSizeScale <= 3.5)) &&
+             (!('autoHideControls' in data) || data.autoHideControls is bool) &&
+             (!('backgroundPattern' in data) || (data.backgroundPattern is string && data.backgroundPattern.size() <= 32)) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
+    // Connection testing doc path
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // User Clock Settings Collection
+    match /userClockSettings/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() &&
+                       isValidId(userId) &&
+                       request.auth.uid == userId &&
+                       isValidClockSettings(incoming());
+      allow update: if isSignedIn() &&
+                       isValidId(userId) &&
+                       request.auth.uid == userId &&
+                       isValidClockSettings(incoming()) &&
+                       incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+    }
+  }
+}

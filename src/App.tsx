@@ -70,7 +70,7 @@ export default function App() {
   const currentTheme = THEMES[settings.theme] || THEMES['cyber-cyan'];
   const tzInfo = getTimezoneInfo();
 
-  // Save settings on change
+  // Save settings on change (Local Storage)
   const updateSettings = useCallback((partial: Partial<ClockSettings>) => {
     setSettings((prev) => {
       const next = { ...prev, ...partial };
