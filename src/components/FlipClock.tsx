@@ -8,6 +8,7 @@ interface FlipClockProps {
   showSeconds: boolean;
   useThaiNumerals: boolean;
   theme: ThemeDefinition;
+  fontSizeScale?: number;
 }
 
 const FlipCard: React.FC<{
@@ -46,6 +47,7 @@ export const FlipClock: React.FC<FlipClockProps> = ({
   showSeconds,
   useThaiNumerals,
   theme,
+  fontSizeScale = 1.0,
 }) => {
   const { hours, minutes, seconds, period } = formatTimeComponents(
     date,
@@ -54,7 +56,14 @@ export const FlipClock: React.FC<FlipClockProps> = ({
   );
 
   return (
-    <div id="flip-clock-display" className="flex items-center justify-center gap-2 sm:gap-4 my-4 select-none">
+    <div
+      id="flip-clock-display"
+      className="flex items-center justify-center gap-2 sm:gap-4 my-4 select-none transition-transform duration-150"
+      style={{
+        transform: fontSizeScale !== 1 ? `scale(${fontSizeScale})` : undefined,
+        transformOrigin: 'center',
+      }}
+    >
       <FlipCard value={hours} theme={theme} label="ชั่วโมง / Hours" />
       
       <span className={`text-2xl sm:text-4xl md:text-6xl font-bold ${theme.colonClass} select-none`}>

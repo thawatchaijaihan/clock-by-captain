@@ -6,12 +6,14 @@ interface AnalogClockProps {
   date: Date;
   theme: ThemeDefinition;
   useThaiNumerals: boolean;
+  fontSizeScale?: number;
 }
 
 export const AnalogClock: React.FC<AnalogClockProps> = ({
   date,
   theme,
   useThaiNumerals,
+  fontSizeScale = 1.0,
 }) => {
   const seconds = date.getSeconds() + date.getMilliseconds() / 1000;
   const minutes = date.getMinutes() + seconds / 60;
@@ -24,7 +26,14 @@ export const AnalogClock: React.FC<AnalogClockProps> = ({
   const hourNumbers = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   return (
-    <div id="analog-clock-container" className="flex items-center justify-center my-3 sm:my-5">
+    <div
+      id="analog-clock-container"
+      className="flex items-center justify-center my-3 sm:my-5 transition-transform duration-150"
+      style={{
+        transform: fontSizeScale !== 1 ? `scale(${fontSizeScale})` : undefined,
+        transformOrigin: 'center',
+      }}
+    >
       <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[26rem] lg:h-[26rem] rounded-full p-2 flex items-center justify-center shadow-2xl transition-all duration-300"
         style={{
           background: theme.isLight

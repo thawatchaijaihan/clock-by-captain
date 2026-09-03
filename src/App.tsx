@@ -10,7 +10,6 @@ import { AnalogClock } from './components/AnalogClock';
 import { FlipClock } from './components/FlipClock';
 import { MinimalistClock } from './components/MinimalistClock';
 import { ControlBar } from './components/ControlBar';
-import { SettingsModal } from './components/SettingsModal';
 import { playTickSound, playHourlyChime } from './utils/audioUtils';
 import { getTimezoneInfo } from './utils/timeUtils';
 import { Globe2, Sparkles } from 'lucide-react';
@@ -26,32 +25,41 @@ const DEFAULT_SETTINGS: ClockSettings = {
   useThaiNumerals: false,
   enableTickSound: false,
   enableHourlyChime: false,
-  showDayProgress: true,
-  showYearProgress: true,
-  showDayPill: true,
+  showDayProgress: false,
+  showYearProgress: false,
+  showDayPill: false,
   showFullDateText: true,
-  showDayOfYearBadge: true,
-  showDaysRemainingBadge: true,
-  showTimezone: true,
-  showFooterBadge: true,
+  showDayOfYearBadge: false,
+  showDaysRemainingBadge: false,
+  showTimezone: false,
+  showFooterBadge: false,
   dimmerBrightness: 100,
   fontSizeScale: 1.0,
   dateFontSizeScale: 1.0,
   autoHideControls: true,
-  backgroundPattern: 'dots',
+  backgroundPattern: 'none',
 };
 
 export default function App() {
   const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
   const [settings, setSettings] = useState<ClockSettings>(() => {
     try {
-      const saved = localStorage.getItem('realtime_clock_settings');
+      const saved = localStorage.getItem('realtime_clock_settings_v2') || localStorage.getItem('realtime_clock_settings');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.theme === 'bold-typography') {
           parsed.theme = 'pastel-canvas-lavender';
         }
-        return { ...DEFAULT_SETTINGS, ...parsed };
+        return {
+          ...DEFAULT_SETTINGS,
+          ...parsed,
+          // Guarantee clean minimal defaults unless user specifically customized them
+          showFooterBadge: false,
+          showDayOfYearBadge: false,
+          showDaysRemainingBadge: false,
+          showDayProgress: false,
+          showYearProgress: false,
+        };
       }
     } catch {
       // Fallback
@@ -60,7 +68,6 @@ export default function App() {
   });
 
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [controlsVisible, setControlsVisible] = useState<boolean>(true);
 
   const prevSecondRef = useRef<number>(currentTime.getSeconds());
@@ -157,12 +164,12 @@ export default function App() {
     if (hideTimerRef.current) {
       window.clearTimeout(hideTimerRef.current);
     }
-    if (settings.autoHideControls && !isSettingsOpen) {
+    if (settings.autoHideControls) {
       hideTimerRef.current = window.setTimeout(() => {
         setControlsVisible(false);
       }, 3500);
     }
-  }, [settings.autoHideControls, isSettingsOpen]);
+  }, [settings.autoHideControls]);
 
   useEffect(() => {
     const handleActivity = () => {
@@ -206,8 +213,6 @@ export default function App() {
         updateSettings({ language: settings.language === 'th' ? 'en' : 'th' });
       } else if (key === 'm') {
         updateSettings({ enableTickSound: !settings.enableTickSound });
-      } else if (key === 's') {
-        setIsSettingsOpen((prev) => !prev);
       } else if (key === ' ') {
         e.preventDefault();
         const styles: ClockSettings['clockStyle'][] = [
@@ -218,19 +223,17 @@ export default function App() {
         ];
         const curIdx = styles.indexOf(settings.clockStyle);
         updateSettings({ clockStyle: styles[(curIdx + 1) % styles.length] });
-      } else if (key === 'escape' && isSettingsOpen) {
-        setIsSettingsOpen(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [settings, toggleFullscreen, updateSettings, isSettingsOpen]);
+  }, [settings, toggleFullscreen, updateSettings]);
 
   return (
     <main
       id="realtime-clock-app"
-      className={`relative w-screen h-screen overflow-hidden flex flex-col justify-between items-center transition-colors duration-500 select-none ${currentTheme.bgClass}`}
+      className={`relative w-screen h-screen overflow-hidden flex flex-col justify-between items-center transition-colors duration-500 select-none ${currentTheme.bgClass} ${!currentTheme.isLight ? 'dark' : ''}`}
       style={{
         filter: `brightness(${settings.dimmerBrightness}%)`,
       }}
@@ -302,6 +305,7 @@ export default function App() {
             showSeconds={settings.showSeconds}
             useThaiNumerals={settings.useThaiNumerals}
             theme={currentTheme}
+            fontSizeScale={settings.fontSizeScale}
           />
         )}
 
@@ -310,6 +314,7 @@ export default function App() {
             date={currentTime}
             theme={currentTheme}
             useThaiNumerals={settings.useThaiNumerals}
+            fontSizeScale={settings.fontSizeScale}
           />
         )}
 
@@ -320,6 +325,7 @@ export default function App() {
             showSeconds={settings.showSeconds}
             useThaiNumerals={settings.useThaiNumerals}
             theme={currentTheme}
+            fontSizeScale={settings.fontSizeScale}
           />
         )}
 
@@ -357,27 +363,17 @@ export default function App() {
           </div>
         )}
 
-        {/* Floating Control Bar */}
+        {/* Floating Control Bar (All settings and controls contained here) */}
         <ControlBar
           settings={settings}
           updateSettings={updateSettings}
+          resetSettings={resetSettings}
           isFullscreen={isFullscreen}
           toggleFullscreen={toggleFullscreen}
-          openSettings={() => setIsSettingsOpen(true)}
           currentTheme={currentTheme}
           isVisible={controlsVisible}
         />
       </footer>
-
-      {/* Settings Modal Dialog */}
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        settings={settings}
-        updateSettings={updateSettings}
-        resetSettings={resetSettings}
-        currentTheme={currentTheme}
-      />
     </main>
   );
 }

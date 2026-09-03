@@ -83,15 +83,15 @@ export const DateDisplay: React.FC<DateDisplayProps> = ({
 
         {/* Large Prominent Full Date Text with Top Divider matching Bold Typography - Perfectly Centered */}
         {showFullDateText && (
-          <div className={`w-full max-w-7xl mx-auto border-t pt-4 sm:pt-6 md:pt-7 mt-3 sm:mt-5 flex flex-col items-center justify-center ${
+          <div className={`w-full max-w-7xl mx-auto border-t pt-4 sm:pt-6 md:pt-7 mt-3 sm:mt-5 flex flex-col items-center justify-center px-2 ${
             theme.isLight ? 'border-zinc-300/70' : 'border-white/10'
           }`}>
             <div className="w-full flex items-center justify-center text-center overflow-visible">
               <h2 
                 id="main-date-heading"
-                className={`text-center whitespace-nowrap inline-block ${theme.textPrimaryClass} font-normal tracking-normal uppercase font-thai transition-all duration-150 select-none`}
+                className={`text-center inline-block ${theme.textPrimaryClass} font-normal tracking-normal uppercase font-thai transition-all duration-150 select-none max-w-full break-words sm:whitespace-nowrap`}
                 style={{
-                  fontSize: `calc(${dateFontSizeScale} * clamp(1.05rem, 3.1vw, 4.5rem))`,
+                  fontSize: `calc(${dateFontSizeScale} * clamp(1.6rem, 6.2vw, 8.5rem))`,
                   lineHeight: 1.25,
                 }}
               >

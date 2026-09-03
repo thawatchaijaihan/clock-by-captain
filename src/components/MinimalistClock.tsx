@@ -8,6 +8,7 @@ interface MinimalistClockProps {
   showSeconds: boolean;
   useThaiNumerals: boolean;
   theme: ThemeDefinition;
+  fontSizeScale?: number;
 }
 
 export const MinimalistClock: React.FC<MinimalistClockProps> = ({
@@ -16,6 +17,7 @@ export const MinimalistClock: React.FC<MinimalistClockProps> = ({
   showSeconds,
   useThaiNumerals,
   theme,
+  fontSizeScale = 1.0,
 }) => {
   const { hours, minutes, seconds, period } = formatTimeComponents(
     date,
@@ -26,9 +28,9 @@ export const MinimalistClock: React.FC<MinimalistClockProps> = ({
   return (
     <div id="minimalist-clock-display" className="flex flex-col items-center justify-center my-4 select-none text-center">
       <div 
-        className="flex items-center justify-center space-x-2 font-light tracking-widest font-mono-num"
+        className="flex items-center justify-center space-x-2 font-light tracking-widest font-mono-num transition-all duration-150"
         style={{
-          fontSize: 'clamp(4.5rem, min(19vw, 36vh), 18rem)',
+          fontSize: `calc(${fontSizeScale} * clamp(4.5rem, min(19vw, 36vh), 18rem))`,
           lineHeight: 1,
         }}
       >
