@@ -81,22 +81,31 @@ export const DateDisplay: React.FC<DateDisplayProps> = ({
           </div>
         )}
 
-        {/* Large Prominent Full Date Text with Top Divider matching Bold Typography - Perfectly Centered */}
+        {/* Large Prominent Full Date Text with Top Divider - Perfectly Centered at Any Scale */}
         {showFullDateText && (
-          <div className={`w-full max-w-7xl mx-auto border-t pt-4 sm:pt-6 md:pt-7 mt-3 sm:mt-5 flex flex-col items-center justify-center px-2 ${
-            theme.isLight ? 'border-zinc-300/70' : 'border-white/10'
-          }`}>
-            <div className="w-full flex items-center justify-center text-center overflow-visible">
-              <h2 
-                id="main-date-heading"
-                className={`text-center inline-block ${theme.textPrimaryClass} font-normal tracking-normal uppercase font-thai transition-all duration-150 select-none max-w-full break-words sm:whitespace-nowrap`}
-                style={{
-                  fontSize: `calc(${dateFontSizeScale} * clamp(1.6rem, 6.2vw, 8.5rem))`,
-                  lineHeight: 1.25,
-                }}
-              >
-                {fullDateText}
-              </h2>
+          <div className="w-full mx-auto flex flex-col items-center justify-center text-center mt-2 sm:mt-4 px-0">
+            {/* Elegant Centered Divider */}
+            <div className={`w-36 sm:w-56 md:w-72 border-t mb-2.5 sm:mb-3.5 opacity-60 ${
+              theme.isLight ? 'border-zinc-300' : 'border-white/15'
+            }`} />
+
+            <div 
+              className="w-full flex items-center justify-center text-center px-0"
+              style={{
+                fontSize: `calc(${dateFontSizeScale} * clamp(1.2rem, 5.8vw, 7rem))`,
+              }}
+            >
+              <div className="relative w-full h-[1.3em] flex justify-center items-center text-center">
+                <h2 
+                  id="main-date-heading"
+                  className={`absolute w-[150vw] left-1/2 -translate-x-1/2 text-center block ${theme.textPrimaryClass} font-normal tracking-normal font-thai select-none transition-all duration-150 whitespace-nowrap`}
+                  style={{
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {fullDateText}
+                </h2>
+              </div>
             </div>
           </div>
         )}

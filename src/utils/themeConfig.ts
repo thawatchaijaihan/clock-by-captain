@@ -27,6 +27,29 @@ export interface ThemeDefinition {
 
 export const THEMES: Record<ThemePreset, ThemeDefinition> = {
   // -------------------------------------------------------------
+  // Classic Digital Alarm Clock Red LED (นาฬิกาดิจิทัลเรโทร แอลอีดีแดง)
+  // -------------------------------------------------------------
+  'retro-alarm-red': {
+    id: 'retro-alarm-red',
+    nameTh: 'นาฬิกาปลุก เรโทร แอลอีดีแดง',
+    nameEn: 'Retro Alarm Red LED',
+    category: 'classic',
+    bgClass: 'bg-[#0a0b0e] text-[#ff2026]',
+    cardBgClass: 'bg-[#12141a]/85 border-[#2c303a] shadow-xl backdrop-blur-md',
+    textPrimaryClass: 'text-[#ff2026]',
+    textSecondaryClass: 'text-[#ff6670]',
+    textAccentClass: 'text-[#ff2026]',
+    accentBorderClass: 'border-[#3a3f4d]',
+    glowClass: '',
+    colonClass: 'text-[#ff2026]',
+    progressColor: '#ff2026',
+    tagBgClass: 'bg-[#220a0d] text-[#ff8088] border border-[#5c161d]',
+    ambientGlowPrimary: '#ff2026',
+    ambientGlowSecondary: '#b91c1c',
+    previewColors: { bg: '#0a0b0e', text: '#ff2026', colon: '#ff2026' },
+  },
+
+  // -------------------------------------------------------------
   // 0. Pastel Canvas Themes (พื้นหลังสีพาสเทลหลากสี ละมุนตา ไม่มืดดำ)
   // -------------------------------------------------------------
   'pastel-canvas-lavender': {

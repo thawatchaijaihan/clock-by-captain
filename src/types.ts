@@ -5,6 +5,8 @@ export type LanguageMode = 'th' | 'en';
 export type CalendarSystem = 'be' | 'ce' | 'both'; // be = พ.ศ., ce = ค.ศ.
 
 export type ThemePreset =
+  // NEW: Classic Digital Alarm Clock Red LED
+  | 'retro-alarm-red'
   // NEW: Colorful Pastel Backgrounds (พื้นหลังสีพาสเทลหลากสี สดใสนุ่มนวล ไม่มืดดำ)
   | 'pastel-canvas-lavender'
   | 'pastel-canvas-matcha'
@@ -42,9 +44,21 @@ export type ThemePreset =
   | 'warm-paper'
   | 'clean-light';
 
+export type TimeFontFamily =
+  | 'dseg7'
+  | 'inter'
+  | 'jetbrains-mono'
+  | 'orbitron'
+  | 'prompt'
+  | 'chakra-petch'
+  | 'outfit'
+  | 'playfair'
+  | 'share-tech';
+
 export interface ClockSettings {
   clockStyle: ClockStyle;
   theme: ThemePreset;
+  timeFont?: TimeFontFamily;
   language: LanguageMode;
   is24Hour: boolean;
   showSeconds: boolean;

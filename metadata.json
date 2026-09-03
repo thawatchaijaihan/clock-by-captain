@@ -1,6 +1,6 @@
 {
-  "name": "นาฬิกาและวันที่เต็มจอ (Real-time Clock)",
-  "description": "เว็บแอปพลิเคชันแสดงเวลาและวันที่ปัจจุบันแบบเรียลไทม์เต็มจอ รองรับภาษาไทยและสากล ปรับแต่งธีมได้",
+  "name": "Show Time By Captain",
+  "description": "เว็บแอปพลิเคชันแสดงเวลาและวันที่ปัจจุบันแบบเรียลไทม์เต็มจอ Show Time By Captain",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <!-- Metallic Bezel Gradient -->
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2e39" />
+      <stop offset="50%" stop-color="#14161d" />
+      <stop offset="100%" stop-color="#0a0b0f" />
+    </linearGradient>
+    <linearGradient id="bezelBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f566b" />
+      <stop offset="100%" stop-color="#1e222d" />
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#07090e" />
+      <stop offset="100%" stop-color="#0d111a" />
+    </linearGradient>
+    <linearGradient id="digitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Pedestal / Stand Base -->
+  <path d="M 19 50 L 22 58 L 42 58 L 45 50 Z" fill="#181a22" stroke="#313645" stroke-width="2" stroke-linejoin="round" />
+  <rect x="22" y="56" width="20" height="2" rx="1" fill="#0c0d12" />
+
+  <!-- Outer Clock Body -->
+  <rect x="4" y="8" width="56" height="42" rx="10" ry="10" fill="url(#caseGrad)" stroke="url(#bezelBorder)" stroke-width="2.5" />
+  
+  <!-- Inner Glass Screen -->
+  <rect x="9.5" y="13.5" width="45" height="31" rx="5" ry="5" fill="url(#screenGrad)" stroke="#1a1e28" stroke-width="1.5" />
+
+  <!-- Digital Time Display: 12:00 in bold digital segments -->
+  <g fill="url(#digitGrad)" filter="url(#glow)">
+    <!-- Digit 1 -->
+    <rect x="14" y="20" width="3.2" height="18" rx="0.8" />
+
+    <!-- Digit 2 -->
+    <!-- top -->
+    <rect x="20" y="20" width="8.5" height="2.8" rx="0.6" />
+    <!-- top right -->
+    <rect x="25.7" y="20" width="2.8" height="8" rx="0.6" />
+    <!-- mid -->
+    <rect x="20" y="27.6" width="8.5" height="2.8" rx="0.6" />
+    <!-- bot left -->
+    <rect x="20" y="27.6" width="2.8" height="8" rx="0.6" />
+    <!-- bot -->
+    <rect x="20" y="35.2" width="8.5" height="2.8" rx="0.6" />
+
+    <!-- Colon Dots : -->
+    <circle cx="32" cy="24.5" r="1.6" />
+    <circle cx="32" cy="33.5" r="1.6" />
+
+    <!-- Digit 3 (0) -->
+    <rect x="35.5" y="20" width="8.5" height="18" rx="2" fill="none" stroke="url(#digitGrad)" stroke-width="2.8" />
+
+    <!-- Digit 4 (0) -->
+    <rect x="46" y="20" width="8.5" height="18" rx="2" fill="none" stroke="url(#digitGrad)" stroke-width="2.8" />
+  </g>
+</svg>

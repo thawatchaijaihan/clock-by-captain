@@ -17,6 +17,7 @@ import { Globe2, Sparkles } from 'lucide-react';
 const DEFAULT_SETTINGS: ClockSettings = {
   clockStyle: 'digital-modern',
   theme: 'pastel-canvas-lavender',
+  timeFont: 'inter',
   language: 'th',
   is24Hour: true,
   showSeconds: true,
@@ -42,6 +43,10 @@ const DEFAULT_SETTINGS: ClockSettings = {
 
 export default function App() {
   const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    document.title = 'Show Time By Captain';
+  }, []);
   const [settings, setSettings] = useState<ClockSettings>(() => {
     try {
       const saved = localStorage.getItem('realtime_clock_settings_v2') || localStorage.getItem('realtime_clock_settings');
@@ -223,6 +228,16 @@ export default function App() {
         ];
         const curIdx = styles.indexOf(settings.clockStyle);
         updateSettings({ clockStyle: styles[(curIdx + 1) % styles.length] });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const keys = Object.keys(THEMES) as Array<keyof typeof THEMES>;
+        const curIdx = keys.indexOf(settings.theme);
+        updateSettings({ theme: keys[(curIdx - 1 + keys.length) % keys.length] });
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        const keys = Object.keys(THEMES) as Array<keyof typeof THEMES>;
+        const curIdx = keys.indexOf(settings.theme);
+        updateSettings({ theme: keys[(curIdx + 1) % keys.length] });
       }
     };
 
@@ -295,6 +310,7 @@ export default function App() {
             useThaiNumerals={settings.useThaiNumerals}
             theme={currentTheme}
             fontSizeScale={settings.fontSizeScale}
+            timeFont={settings.timeFont}
           />
         )}
 
@@ -306,6 +322,7 @@ export default function App() {
             useThaiNumerals={settings.useThaiNumerals}
             theme={currentTheme}
             fontSizeScale={settings.fontSizeScale}
+            timeFont={settings.timeFont}
           />
         )}
 
@@ -326,6 +343,7 @@ export default function App() {
             useThaiNumerals={settings.useThaiNumerals}
             theme={currentTheme}
             fontSizeScale={settings.fontSizeScale}
+            timeFont={settings.timeFont}
           />
         )}
 

@@ -60,6 +60,10 @@
 }
 
 /* Eye-friendly minimal typography - zero glare, pure clarity */
+.text-glow-led-red {
+  text-shadow: none;
+}
+
 .text-glow-white {
   text-shadow: none;
 }
